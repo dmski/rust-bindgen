@@ -61,6 +61,8 @@ Options:
                               would fit in a u8,u16,u32,u64,i8,i16,i32,i64 to
                               the corresponding named C type, respectively. See
                               `--override-enum-type` for the type names.
+  --allow-unknown-types       Don't fail generation on stumbling upon an unknown type, 
+                              issue a warning and continue.
 ";
 
 #[derive(Debug, RustcDecodable)]
@@ -82,6 +84,7 @@ struct Args {
     flag_dont_convert_floats: bool,
     flag_convert_macros: bool,
     flag_macro_int_types: Option<String>,
+    flag_allow_unknown_types: bool,
 }
 
 fn args_to_opts(args: Args) -> Builder<'static> {
@@ -113,6 +116,9 @@ fn args_to_opts(args: Args) -> Builder<'static> {
     }
     if args.flag_dont_convert_floats {
         builder.dont_convert_floats();
+    }
+    if args.flag_allow_unknown_types {
+        builder.allow_unknown_types();
     }
     if let Some(link) = args.flag_link {
         let mut parts = link.split('=');

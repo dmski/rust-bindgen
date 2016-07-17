@@ -80,6 +80,12 @@ impl<'a> Builder<'a> {
         self
     }
 
+    /// Allow bindgen to continue when an unknown type is encountered
+    pub fn allow_unknown_types(&mut self) -> &mut Self {
+        self.options.fail_on_unknown_type = false;
+        self
+    }
+
     /// Control if we should use the c builtins like `__va_list`.
     pub fn builtins(&mut self) -> &mut Self {
         self.options.builtins = true;
